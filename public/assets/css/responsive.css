@@ -1,0 +1,19 @@
+.form-check-input{
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    position: relative;
+    top: -2px;
+}
+.profile-img{
+    max-width: 70px;
+    max-height: 70px;
+    background-color: #eee;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.profile-img img{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}

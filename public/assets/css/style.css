@@ -1,0 +1,159 @@
+/*  Roboto fonts start */
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Light.woff2') format('woff2'),
+      url('../fonts/Roboto-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Regular.woff2') format('woff2'),
+      url('../fonts/Roboto-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Medium.woff2') format('woff2'),
+      url('../fonts/Roboto-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Bold.woff2') format('woff2'),
+      url('../fonts/Roboto-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/*  Roboto fonts end */
+
+/* Root */
+:root {
+    /* default colors */
+    --body-color:#ffffff;
+    --body-gray-color: #F0F2F5;
+    --primary-color: #1877F2;
+    --secondary-color: #050505;
+    --white-color: #ffffff;
+    --black-color: #000000;
+    --text-color: #65676B;
+    --border-color: #CED0D4;
+    /* Font style */
+    --roboto-font: "Roboto", sans-serif;
+    /* spacing */
+    --section-spacing: 50px;
+    /* header height */
+    --header-h: 56px;
+    /* sidebar width */
+    --sidebar-w: 360px;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+  }
+  /* Root */
+  /* default css start */
+  body {
+    font-family: var(--roboto-font);
+    font-weight: 500;
+    background-color: var(--body-color);
+  }
+  .btn,
+  .form-control:focus,
+  button:focus,
+  .btn:focus {
+    outline: none !important;
+  }
+  .cursor-pointer{
+    cursor: pointer;
+  }
+  /* form controls start */
+  .form-group{
+    margin-bottom: 20px;
+  }
+  .custom-input,.custom-textarea{
+    border: 1px solid var(--black-color);
+    background-color: var(--body-gray-color);
+    border-radius: 5px;
+    padding: 5px 15px;
+    min-height: 40px;
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--secondary-color);
+    text-align: left;
+  }
+  .custom-textarea{
+    height: 100px;
+  }
+  .form-floating>.form-control, .form-floating>.form-control-plaintext,.form-floating>label{
+    padding: 16px;
+  }
+  label{
+    font-weight: 400;
+    font-size: 16px;
+    color: #455A64;
+    text-align: left;
+  }
+  label sup.star{
+    color: #E1291E;
+  }
+  .form-control::placeholder{
+    font-size: 14px;
+    color: #455A64;
+  }
+  .form-control:focus{
+    border: 1px solid var(--secondary-color);
+    background-color: transparent;
+    box-shadow: none;
+  }
+  /* form controls end */
+ /* BUTTON STYLING */
+ .primary-btn {
+  text-transform: capitalize;
+  background-color: var(--primary-color);
+  min-width: 150px;
+  min-height: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 7px 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--primary-color);
+  cursor: pointer;
+  color: #F9F4F4;
+  border-radius: 40px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transition: 0.5s all;
+}
+.primary-btn:hover
+{
+  background-color: var(--white-color);
+  color: var(--primary-color);
+}
+.fill-transparent{
+  background-color: transparent;
+  color: var(--primary-color);
+}
+.fill-transparent:hover{
+  background-color: var(--primary-color);
+  color: var(--white-color);
+}
+/* BUTTON STYLING END */
+/* Default css end*/
+.fomr-controls form{
+  max-width: 700px;
+}
+.custom-table table{
+  border: 1px solid var(--primary-color);
+}
+.custom-table table th,.custom-table table td{
+  text-transform: capitalize;
+  min-width: 170px;
+}
