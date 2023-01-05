@@ -27,6 +27,4 @@ class EmployeeRoleAssociationService
     {
         return $this->repository->getEmpRoles($id);
     }
-
-
 }

@@ -144,7 +144,9 @@ class EmployeeController extends Controller
 
         if (isset($empImage['profile_image_name']) && $empImage['profile_image_name'] !== "") {
             $image_path = public_path('/images/profile/'). $empImage['profile_image_name'];
-            unlink($image_path);
+            if (file_exists($image_path)) {
+                unlink($image_path);
+            }
         }
 
         $this->service->deleteEmp($employee->id);
