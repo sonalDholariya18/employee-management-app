@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::resource('/employee', 'EmployeeController');
-// Route::post('/employee/delete', 'EmployeeController@delete');
 
 Route::prefix('config')
             ->group(static function () {

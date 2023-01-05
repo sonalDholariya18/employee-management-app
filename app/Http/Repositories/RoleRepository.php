@@ -2,6 +2,7 @@
 namespace App\Http\Repositories;
 
 use App\Models\Role;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * Class RoleRepository
@@ -22,39 +23,44 @@ class RoleRepository
     {
         $this->model = $model;
     }
-     /**
+
+    /**
      *
-     * Get roles
+     * Get roles list
+     * @return array
      */
-    public function getAllRoles()
+    public function getAllRoles(): array
     {
         return $this->model->get()->toArray();
     }
 
     /**
      *
-     * Get roles
+     * Get roles with paginate
+     * @return LengthAwarePaginator
      */
-    public function getRole()
+    public function getRole(): LengthAwarePaginator
     {
         return $this->model->paginate(5);
     }
 
     /**
-     * Insert a role
+     * Insert a new Role
      * @param $role
+     * @return Role
      */
-    public function create($role)
+    public function create($role): Role
     {
         return $this->model->create($role);
     }
 
     /**
      * Update a role
-     * @param $role
-     * @param $params
+     * @param Role $role
+     * @param array $params
+     * @return RoleModel
      */
-    public function update(Role $model, $params)
+    public function update(Role $model, $params):? int
     {
         return $this->model
                     ->where('id', $model->id)
@@ -64,8 +70,9 @@ class RoleRepository
     /**
      * Delete a role
      * @param $role
+     * @return Role
      */
-    public function delete($role)
+    public function delete($role): Role
     {
         return $this->model
                     ->where('id', $role->id)

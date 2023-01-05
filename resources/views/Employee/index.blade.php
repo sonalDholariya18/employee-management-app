@@ -24,8 +24,15 @@
                     <div class="pull-left">
                         <h2>Employees</h2>
                     </div>
-                    <div class="pull-right">
-                        <a class="btn btn-success" href="{{ route('employee.create') }}"> Create New Employee</a>
+                    <div class="row">
+                        <div class="pull-right col">
+                            <a class="btn btn-success" href="{{ route('employee.create') }}"> Create New Employee</a>
+                        </div>
+                        <div class="pull-right col">
+                        </div>
+                        <div class="pull-right col" >
+                            <a class="btn btn-success" href="{{ route('role.index') }}">Role mangement</a>
+                        </div>
                     </div>
                 </div>
             </div>

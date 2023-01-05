@@ -18,7 +18,7 @@ class RoleStoreRequest extends FormRequest
                 'required',
                 'string',
                 'max:100',
-                // new RoleNameValidation(),
+                new RoleNameValidation(),
             ]
         ];
     }

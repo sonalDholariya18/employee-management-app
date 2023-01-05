@@ -8,7 +8,6 @@ use App\Models\Employee;
 use App\Http\Services\Employee\EmployeeService;
 use App\Http\Services\Employee\RoleService;
 use App\Http\Services\EmployeeRoleAssociationService;
-use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
@@ -64,7 +63,6 @@ class EmployeeController extends Controller
      */
     public function store(EmployeeStoreRequest $request)
     {
-
         if (!isset($request->is_same_add) && $request->p_address == null) {
             $this->validate($request, [
                 'p_address'=>'required|string',
@@ -74,7 +72,6 @@ class EmployeeController extends Controller
         }
 
         $this->service->create($request);
-
         return $this->redirectToPage('employee.index', 'Employee created successfully');
     }
 
@@ -97,18 +94,20 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-         $roles = $permanentAddress =  $empRolesArrKey = [];
+        $roles = $permanentAddress =  $empRolesArrKey = [];
         if ($employee->is_same_add == 0) {
             $permanentAddress = $this->permanentAddressRepository->getEmpAddress($employee->id);
         } else {
             $permanentAddress = ['address'=>''];
         }
+
         $roles = $this->roleService->getAllRoles();
 
         $empRoles = $this->employeeRoleAssociationService->getRolesForSelectedEmployee($employee->id);
         foreach ($empRoles as $empRole) {
             array_push($empRolesArrKey, $empRole['id']);
         }
+
         return view('Employee.edit', compact('employee', 'roles', 'empRolesArrKey', 'permanentAddress'));
     }
 
@@ -130,7 +129,6 @@ class EmployeeController extends Controller
         }
 
         $this->service->update($request, $employee);
-
         return $this->redirectToPage('employee.index', 'Employee updated successfully');
     }
 
@@ -142,13 +140,14 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        if (isset($employee->profile_image_name)) {
-            $image_path = public_path('/images/profile/'). $employee->profile_image_name;
+        $empImage = $this->service->getImageByEmpId($employee->id);
+
+        if (isset($empImage['profile_image_name']) && $empImage['profile_image_name'] !== "") {
+            $image_path = public_path('/images/profile/'). $empImage['profile_image_name'];
             unlink($image_path);
         }
 
         $this->service->deleteEmp($employee->id);
-
         return $this->redirectToPage('employee.index', 'Employee deleted successfully');
     }
 

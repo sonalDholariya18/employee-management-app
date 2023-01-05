@@ -26,15 +26,16 @@ class EmployeeRepository
     /**
      *
      * Get list of employees
+     * @return array
      */
-    public function getEmployeeList()
+    public function getEmployeeList():? array
     {
         return $this->model->get()->toArray();
     }
 
     /**
      *
-     *create
+     * Create a new employee
      */
     public function create($data)
     {
@@ -42,10 +43,11 @@ class EmployeeRepository
     }
 
      /**
-     * Update a employee
+     * Update an employee
      * @param $emp
+     * @return int
      */
-    public function update($emp_id, $data)
+    public function update($emp_id, $data):? int
     {
         return $this->model
                     ->where('id', $emp_id)
@@ -55,12 +57,25 @@ class EmployeeRepository
     /**
      * Delete a employee
      * @param $emp
+     * @return int
      */
-    public function delete($emp)
+    public function delete($emp):? int
     {
-
         return $this->model
                     ->where('id', $emp)
                     ->delete();
+    }
+
+    /**
+     * get image path
+     * @param $emp_id
+     * @return array
+     */
+    public function getImageByEmpId($emp_id): array
+    {
+        return $this->model
+                    ->select('profile_image_name')
+                    ->where('id', $emp_id)
+                    ->first()->toArray();
     }
 }

@@ -19,7 +19,7 @@ class RoleNameValidation implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        return preg_match('/^[a-z\-]+$/u', $value);
+        return preg_match('/^[A-Za-z\-_ ]+$/u', $value);
     }
 
     /**
@@ -29,6 +29,6 @@ class RoleNameValidation implements Rule
      */
     public function message(): string
     {
-        return 'The :attribute can only contain down case alphabet and \'-\'';
+        return 'The :attribute can only contain alphabet space and special characters - and _';
     }
 }

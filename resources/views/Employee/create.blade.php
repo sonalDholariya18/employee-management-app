@@ -20,6 +20,16 @@
     <!-- form start -->
     <section class="fomr-controls py-5">
         <div class="container">
+            <div class="row">
+                <div class="col-lg-12 margin-tb">
+                    <div class="pull-left">
+                        <h2>Add New Employee</h2>
+                    </div>
+                    <div class="pull-right">
+                        <a class="btn btn-primary" href="{{ route('employee.index') }}"> Back</a>
+                    </div>
+                </div>
+            </div>
            @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Whoops!</strong> There were some problems with your input.<br><br>

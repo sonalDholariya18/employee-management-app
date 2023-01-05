@@ -12,13 +12,13 @@ use App\Http\Repositories\RoleRepository;
  */
 class EmployeeService
 {
-   /**
-     * @var RoleRepository
+    /**
+     * @var EmployeeRepository
      */
     protected $repository;
+
     protected $addressRepository;
     protected $employeeRoleAssociationRepository;
-    // protected $rolesRepository;
 
 
     /**
@@ -31,19 +31,17 @@ class EmployeeService
         EmployeeRepository $employeeRepository,
         PermanentAddressRepository $permanentAddressRepository,
         EmployeeRoleAssociationRepository $employeeRoleAssociationRepository
-        // RoleRepository $roleRepository
     ) {
         $this->repository = $employeeRepository;
         $this->addressRepository = $permanentAddressRepository;
         $this->employeeRoleAssociationRepository = $employeeRoleAssociationRepository;
-        // $this->rolesRepository = $roleRepository;
     }
 
     /**
      * Get All Employee list
-     *
+     * @return array
      */
-    public function getEmployees()
+    public function getEmployees():? array
     {
         $empDetails = [];
         $empData = $this->repository->getEmployeeList();
@@ -65,58 +63,59 @@ class EmployeeService
         return $empDetails;
     }
 
-     /**
-     * @param array $data
-     * @throws ModelCreateErrorException
-     */
-    public function create($request)
+    /**
+     * Create a new employee
+     * @param Request $request
+     * @return void
+    */
+    public function create($request): void
     {
         $imageName = time().'.'.$request->profile_image_name->extension();
-
-
         $request->profile_image_name->move(public_path('images/profile'), $imageName);
-        $emp = $this->repository->create([
-                                        'first_name' => $request->first_name,
-                                        'last_name' => $request->last_name,
-                                        'email' => $request->email,
-                                        'date_of_birth' => $request->date_of_birth,
-                                        'profile_image_name' => $imageName,
-                                        'current_address' => $request->current_address,
-                                        'is_same_address' => isset($request->is_same_add) ? 1 : 0,
-        ]);
+
+        $emp = $this->repository
+                    ->create([
+                            'first_name' => $request->first_name,
+                            'last_name' => $request->last_name,
+                            'email' => $request->email,
+                            'date_of_birth' => $request->date_of_birth,
+                            'profile_image_name' => $imageName,
+                            'current_address' => $request->current_address,
+                            'is_same_address' => isset($request->is_same_add) ? 1 : 0,
+                    ]);
 
         if (!isset($request->is_same_add) && $request->p_address != "") {
-            $insertAdd = $this->addressRepository->create(['emp_id' => $emp->id, 'address' => $request->p_address]);
+            $this->addressRepository->create(['emp_id' => $emp->id, 'address' => $request->p_address]);
         }
 
         if (!empty($request->roles)) {
             foreach ($request->roles as $role) {
-                $insertRole = $this->employeeRoleAssociationRepository->create(['emp_id' => $emp->id, 'role_id' => $role]);
+                $this->employeeRoleAssociationRepository->create(['emp_id' => $emp->id, 'role_id' => $role]);
             }
         }
     }
 
-
      /**
-     * @param array $data
-     * @throws ModelCreateErrorException
+     * @param Request $request
+     * @param array @employee
+     * @return void
      */
-    public function update($request, $employee)
+    public function update($request, $employee): void
     {
         $imageName = $employee->profile_image_name;
 
         if ($request->profile_image_name) {
-            if (isset($employee->profile_image_name)) {
+            if (isset($employee->profile_image_name) && $employee->profile_image_name != "") {
                 $image_path = public_path('/images/profile/'). $employee->profile_image_name;
                 if (file_exists($image_path)) {
-                    //  unlink($image_path);
+                    unlink($image_path);
                 }
             }
             $imageName = time().'.'.$request->profile_image_name->extension();
             $request->profile_image_name->move(public_path('images/profile'), $imageName);
         }
 
-        $emp = $this->repository->update($employee->id, [
+        $this->repository->update($employee->id, [
                                         'first_name' => $request->first_name,
                                         'last_name' => $request->last_name,
                                         'email' => $request->email,
@@ -126,30 +125,44 @@ class EmployeeService
                                         'is_same_address' => isset($request->is_same_add) ? 1 : 0
         ]);
 
+        //Check the permanent address and update
         if (!isset($request->is_same_add) && $request->p_address != "" && $employee->p_address == null) {
             $this->addressRepository->create(['emp_id' => $employee['id'], 'address' => $request->p_address]);
-        } else if (!isset($request->is_same_add) && $request->p_address != "" && $employee->p_address != null) {
+        } elseif (!isset($request->is_same_add) &&
+                    $request->p_address != "" &&
+                    $employee->p_address != null
+                ) {
             $this->addressRepository->update($employee['id'], ['address' => $request->p_address]);
-        } else if (!isset($employee->is_same_add) && isset($request->is_same_add)) {
+        } elseif (!isset($employee->is_same_add) && isset($request->is_same_add)) {
             $this->addressRepository->delete($employee['id']);
         }
 
-        $deleteRoles = $this->employeeRoleAssociationRepository->delete($employee['id']);
+        //update employee role
+        $this->employeeRoleAssociationRepository->delete($employee['id']);
         if (!empty($request->roles)) {
             foreach ($request->roles as $role) {
-                $insertRole = $this->employeeRoleAssociationRepository->create(['emp_id' => $employee['id'], 'role_id' => $role]);
+                $this->employeeRoleAssociationRepository->create(['emp_id' => $employee['id'], 'role_id' => $role]);
             }
         }
     }
 
     /**
-     * delete role
-     *
+     * delete employee
+     * @param array $employee
+     * @return void
      */
-    public function deleteEmp($emp)
+    public function deleteEmp($employee): void
     {
-        $this->repository->delete($emp);
+        $this->repository->delete($employee);
     }
 
-
+    /**
+     * Get employee image path
+     * @param array $emp_id
+     * @return array
+     */
+    public function getImageByEmpId($emp_id): array
+    {
+        return $this->repository->getImageByEmpId($emp_id);
+    }
 }

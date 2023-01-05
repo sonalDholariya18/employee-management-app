@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\RoleNameValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -21,10 +22,12 @@ class EmployeeStoreRequest extends FormRequest
                 'first_name' => [
                     'required',
                     'max:50',
+                    new RoleNameValidation(),
                 ],
                 'last_name' => [
                     'required',
                     'max:50',
+                    new RoleNameValidation(),
                 ],
                 'email' => [
                     'required',
