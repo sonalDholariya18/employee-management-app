@@ -7,7 +7,7 @@ use App\Http\Requests\EmployeeStoreRequest;
 use App\Models\Employee;
 use App\Http\Services\Employee\EmployeeService;
 use App\Http\Services\Employee\RoleService;
-use App\Http\Services\EmployeeRoleAssociationService;
+use App\Http\Services\Employee\EmployeeRoleAssociationService;
 
 class EmployeeController extends Controller
 {

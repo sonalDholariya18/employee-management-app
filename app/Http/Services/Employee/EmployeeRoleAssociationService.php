@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\Employee;
 
 use App\Http\Repositories\EmployeeRoleAssociationRepository;
 
